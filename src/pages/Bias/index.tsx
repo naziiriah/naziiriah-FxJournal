@@ -49,6 +49,12 @@ export default function BiasPage() {
     return acc;
   }, {});
 
+   // Sort weeks newest first
+  const sortedWeekKeys = Object.keys(biasesByWeek).sort(
+    (a, b) => new Date(b).getTime() - new Date(a).getTime()
+  );
+
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="flex justify-between items-center mb-6">
@@ -68,11 +74,11 @@ export default function BiasPage() {
       )}
 
       {/* Render grouped by week */}
-      {Object.entries(biasesByWeek).map(([week, weekBiases]) => (
+      {sortedWeekKeys.map((week) => (
         <div key={week} className="mb-8">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">{week}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {weekBiases.map((bias) => (
+            {biasesByWeek[week].map((bias) => (
               <motion.div
                 key={bias.id}
                 whileHover={{ scale: 1.02 }}

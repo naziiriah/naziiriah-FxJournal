@@ -94,12 +94,14 @@ export default function TradeIndexPage() {
                   <td className="py-3 px-4">
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        trade.result
+                        trade.result === "Profit"
                           ? "bg-green-100 text-green-700"
+                          : trade.result === "Break Even"
+                          ? "bg-yellow-100 text-yellow-700"
                           : "bg-red-100 text-red-700"
                       }`}
                     >
-                      {trade.result ? "Win" : "Loss"}
+                      {trade.result}
                     </span>
                   </td>
                   <td className="py-3 px-4 text-gray-500 text-sm">

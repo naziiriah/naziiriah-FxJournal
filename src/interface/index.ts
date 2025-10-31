@@ -100,7 +100,7 @@ export interface Trade {
   session?: "London" | "New York" | "Asia";
   dailyBias?: string;
   tradeDirection: "Buy" | "Sell";
-  result: boolean;
+  result: string;
   risk?: string;
   reward?: string;
   entryTimeframe?: string;
@@ -120,4 +120,11 @@ export interface TradeState {
   selectedTrade: Trade | null;
   loading: boolean;
   error: string | null;
+}
+
+export interface Rule {
+  id: string;
+  title: string; // Will be hashed in service layer
+  expression: string;
+  createdAt: Date;
 }

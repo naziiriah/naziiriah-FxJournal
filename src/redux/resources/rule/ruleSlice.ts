@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { RuleType } from "../../../interface";
+import type { Rule, RuleType } from "../../../interface";
 
 const baseURL = "http://localhost:3000"; // replace with your backend URL
 const token = localStorage.getItem("token");
@@ -10,6 +10,7 @@ const token = localStorage.getItem("token");
 // Slice State
 interface RulesState {
   rules: RuleType[];
+  selectedRule:Rule | null;
   loading: boolean;
   error: string | null;
 }
@@ -18,10 +19,24 @@ const initialState: RulesState = {
   rules: [],
   loading: false,
   error: null,
+  selectedRule: null
 };
 
 // -------------------- THUNKS --------------------
-
+export const fetchRuleByID = createAsyncThunk< Rule,
+  { id: string}
+>(
+  "rules/fetchRuleByID",
+  async ({ id}, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${baseURL}/rules/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Failed to update rule");
+    }
+  })
 // Fetch all rules
 export const fetchRules = createAsyncThunk<RuleType[], string>(
   "rules/fetchRules",
@@ -72,9 +87,10 @@ export const updateRule = createAsyncThunk<
 
 // Delete a rule
 export const deleteRule = createAsyncThunk<
-  string,
-  { id: string; token: string }
->("rules/deleteRule", async ({ id, token }, { rejectWithValue }) => {
+   string,
+  { id: string },
+  { rejectValue: string }
+>("rules/deleteRule", async ({ id }, { rejectWithValue }) => {
   try {
     await axios.delete(`${baseURL}/rules/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -105,6 +121,8 @@ const rulesSlice = createSlice({
       state.error = action.payload as string;
     });
 
+    
+
     // Create Rule
     builder.addCase(createRule.pending, (state) => {
       state.loading = true;
@@ -133,6 +151,20 @@ const rulesSlice = createSlice({
       state.loading = false;
       state.error = action.payload as string;
     });
+
+     // Fetch One
+    builder.addCase(fetchRuleByID.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchRuleByID.fulfilled, (state, action: PayloadAction<Rule>) => {
+      state.loading = false;
+      state.selectedRule = action.payload;
+    })
+    .addCase(fetchRuleByID.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    })
 
     // Delete Rule
     builder.addCase(deleteRule.pending, (state) => {

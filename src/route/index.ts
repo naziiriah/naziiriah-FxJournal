@@ -14,6 +14,7 @@ import TradeDetailsPage from "../pages/Trades/details";
 // import EditTradePage from "../pages/Trades/edit";
 import CreateTradePage from "../pages/Trades/create";
 import TradeEditPage from "../pages/Trades/edit";
+import RulesDetailPage from "../pages/Rules/details";
 
 export const router = createBrowserRouter([
   {
@@ -51,8 +52,12 @@ export const router = createBrowserRouter([
     Component: RulesCreatePage
    },
    {
-    path: '/rules/edit:id',
+    path: '/rules/edit/:id',
     Component: RulesEditPage
+   },
+   {
+    path: '/rules/detail/:id',
+    Component: RulesDetailPage
    },
    {
     path: "/trades",

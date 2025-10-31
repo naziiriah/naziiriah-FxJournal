@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "../../redux/store";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { deleteRule, fetchRules } from "../../redux/resources/rule/ruleSlice";
 import BottomNav from "../../components/BottomBar";
 
@@ -35,14 +35,16 @@ export default function RulesPage() {
     const confirmed = window.confirm("Are you sure you want to delete this rule?");
     if (!confirmed) return;
 
-    const token = localStorage.getItem("token") || "";
-    dispatch(deleteRule({ id, token }));
+
+    dispatch(deleteRule({ id:id}));
   };
 
   const handleEdit = (id: string) => {
     navigate(`/rules/edit/${id}`);
   };
-
+ const handleDetail = (id: string) => {
+    navigate(`/rules/detail/${id}`);
+  };
   // Group rules by week
   const rulesByWeek = rules.reduce((acc: Record<string, typeof rules>, rule) => {
     const weekStart = getWeekStart(new Date(rule.createdAt));
@@ -97,6 +99,13 @@ export default function RulesPage() {
                   </div>
 
                   <div className="mt-4 flex justify-end gap-2">
+                    <button
+                      onClick={() => handleDetail(rule.id)}
+                      className="text-blue-600 hover:text-blue-800"
+                      title="View Details"
+                    >
+                      <EyeIcon className="w-5 h-5" />
+                    </button>
                     <button
                       onClick={() => handleEdit(rule.id)}
                       className="p-2 rounded-lg hover:bg-gray-200 transition"

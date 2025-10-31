@@ -84,10 +84,15 @@ export default function TradeDetailsPage() {
 
           <p
             className={`text-sm font-semibold ${
-              trade.result ? "text-green-600" : "text-red-600"
+              trade.result  == "Profit"?  "text-green-600" :
+               trade.result === "Break Even" ?
+               " text-yellow-600" : "text-red-600"
             }`}
           >
-            {trade.result ? "Win ✅" : "Loss ❌"}
+            {trade.result == "Profit" ? "Win ✅" : 
+              trade.result === "Break Even" ?
+                "Break Even " :
+              "Loss ❌"}
           </p>
         </div>
 

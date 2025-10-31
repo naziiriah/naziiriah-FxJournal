@@ -19,7 +19,7 @@ interface TradeFormState {
   session: string;
   dailyBias: string;
   tradeDirection: string;
-  result: boolean;
+  result: string;
   risk: string;
   reward: string;
   entryTimeframe: string;
@@ -49,7 +49,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ isEdit = false }) => {
     session: "London",
     dailyBias: "",
     tradeDirection: "Buy",
-    result: false,
+    result: "",
     risk: "",
     reward: "",
     entryTimeframe: "",
@@ -78,7 +78,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ isEdit = false }) => {
             session: data.session || "London",
             dailyBias: data.dailyBias || "",
             tradeDirection: data.tradeDirection || "Buy",
-            result: data.result ?? false,
+            result: "",
             risk: data.risk || "",
             reward: data.reward || "",
             entryTimeframe: data.entryTimeframe || "",

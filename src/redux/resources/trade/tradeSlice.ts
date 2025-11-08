@@ -73,7 +73,7 @@ export const updateTrade = createAsyncThunk<
 >("trades/update", async ({ id, data }, { rejectWithValue }) => {
   try {
     const token = localStorage.getItem("token") || "";
-    const response = await axios.patch(`${baseURL}/trades/${id}`, data, {
+    const response = await axios.put(`${baseURL}/trades/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

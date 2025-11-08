@@ -128,3 +128,10 @@ export interface Rule {
   expression: string;
   createdAt: Date;
 }
+
+export interface Review {
+  review:string;
+  errorCheck: boolean;
+  errorDescriptions:string[]
+  rating: string | number
+}

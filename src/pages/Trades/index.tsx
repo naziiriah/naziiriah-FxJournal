@@ -96,8 +96,10 @@ export default function TradeIndexPage() {
                       className={`px-2 py-1 rounded-full text-xs font-semibold ${
                         trade.result === "Profit"
                           ? "bg-green-100 text-green-700"
-                          : trade.result === "Break Even"
+                          : trade.result === "Break Even" 
                           ? "bg-yellow-100 text-yellow-700"
+                          : trade.result === "Pending"
+                          ?"bg-yellow-100 text-yellow-700"
                           : "bg-red-100 text-red-700"
                       }`}
                     >

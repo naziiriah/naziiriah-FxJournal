@@ -7,12 +7,15 @@ import { useNavigate } from "react-router-dom";
 import BottomNav from "../../components/BottomBar";
 
 // Helper to get start of week (Monday)
-const getWeekStart = (date: Date) => {
+function getWeekStart(date: Date): Date {
   const d = new Date(date);
-  const day = d.getDay(); // 0 = Sunday, 1 = Monday
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when Sunday
-  return new Date(d.setDate(diff));
-};
+  const day = d.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+  const diff = d.getDate() - day; // subtract current day index to reach Sunday
+  const weekStart = new Date(d.setDate(diff));
+  weekStart.setHours(0, 0, 0, 0); // clear time
+  return weekStart;
+}
+
 
 // Format a date nicely
 const formatWeek = (date: Date) => {
@@ -40,20 +43,17 @@ export default function BiasPage() {
     navigate(`/bias/edit/${id}`);
   };
 
-  // Group biases by week
   const biasesByWeek = items.reduce((acc: Record<string, typeof items>, bias) => {
-    const weekStart = getWeekStart(new Date(bias.createdAt));
-    const weekKey = formatWeek(weekStart);
-    if (!acc[weekKey]) acc[weekKey] = [];
-    acc[weekKey].push(bias);
-    return acc;
-  }, {});
+  const weekStart = getWeekStart(new Date(bias.createdAt)); // Sunday-start week
+  const weekKey = weekStart.toISOString().split("T")[0]; // e.g. "2025-11-02"
+  if (!acc[weekKey]) acc[weekKey] = [];
+  acc[weekKey].push(bias);
+  return acc;
+}, {});
 
-   // Sort weeks newest first
-  const sortedWeekKeys = Object.keys(biasesByWeek).sort(
-    (a, b) => new Date(b).getTime() - new Date(a).getTime()
-  );
-
+const sortedWeekKeys = Object.keys(biasesByWeek).sort(
+  (a, b) => new Date(b).getTime() - new Date(a).getTime()
+);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

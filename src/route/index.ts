@@ -15,6 +15,10 @@ import TradeDetailsPage from "../pages/Trades/details";
 import CreateTradePage from "../pages/Trades/create";
 import TradeEditPage from "../pages/Trades/edit";
 import RulesDetailPage from "../pages/Rules/details";
+import ReviewDetailsPage from "../pages/Review/Detail";
+import ReviewIndexPage from "../pages/Review/Index";
+import ReviewEditPage from "../pages/Review/Edit";
+import ReviewCreatePage from "../pages/Review/Create";
 
 export const router = createBrowserRouter([
   {
@@ -72,9 +76,26 @@ export const router = createBrowserRouter([
     Component: TradeEditPage
    },
    {
-    path: "trades/create",
+    path: "/trades/create",
     Component: CreateTradePage
+   },
+   {
+    path: "/reviews/detail/:id",
+    Component: ReviewDetailsPage
+   },
+   {
+    path: "/reviews",
+    Component: ReviewIndexPage
+   },
+   {
+    path: "/reviews/edit/:id",
+    Component: ReviewEditPage
+   },
+   {
+    path: "/reviews/create",
+    Component: ReviewCreatePage
    }
+
 ]);
 
 
